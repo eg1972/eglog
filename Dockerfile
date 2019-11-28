@@ -4,7 +4,7 @@
 
 FROM alpine:latest
 
-# COPY ELOGD
+# COPY ELOGD and resources
 COPY elogd-static /usr/local/bin/
 COPY elogd300-res.tar /data/elog-data/
 
@@ -18,7 +18,7 @@ RUN addgroup elog && adduser -D elog -G elog && \
     chown -R elog:elog /data/ && \
     chmod +x /usr/local/bin/elogd-static
     
-# Volumes: no changes possible after declaration
+# Volumes: which directories should be publishable as volumes; no changes possible after declaration
 #https://docs.docker.com/engine/reference/builder/#volume
 #https://docs.docker.com/storage/volumes/
 VOLUME ["/data/elog-data", "/data/elog-config"]
