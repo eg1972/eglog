@@ -6,6 +6,7 @@ pipeline{
              dockerfile {
                filename 'Dockerfile'
                dir 'buildcontainer'
+               args '-t stone1972/eglogd-build:v1'
               }
             }
             steps{
