@@ -13,6 +13,7 @@ Tests:
 
 TODO:
 - extract the resources from the latest elog-source
+- implement a Jenkins pipeline with the steps below
 
 1. Manual test: compile a static elogdownload source to a test-container
     ```
@@ -39,25 +40,35 @@ TODO:
 2. Build a statically-linked elogd image using Dockerfile
     ```
     docker image build -t stone1972/eglogd-build:v1 .
-    docker image rm stone1972/eglogd-build:v1
     ```
-4. start a container to get to the binary into a local directory
+3. start a container to get to the binary into a local directory
     ```
     docker run -d --rm --name elogd-copy \
-        --mount type=bind,source="$PWD",target=/elogd-static \
+        --mount type=bind,source="$PWD/../elogcontainer",target=/elogd-static \
         stone1972/eglogd-build:v1 
     ```
-5. Build an image for the elog container using Dockerfile
+4. Build an image for the elog container using Dockerfile
     ```
-    cp ../buildcontainer/elogd-static .
+    #cp ../buildcontainer/elogd-static .
     docker image build -t stone1972/eglogd:v1 .
+    ```
+5. start an elog container running the binary
+    ```
+    docker run -d --publish 127.0.0.1:8084:8081 --name eglogd-v1 stone1972/eglogd:v1
+    ```
+    [http://localhost:8084](http://localhost:8084)
+6. push the image to the Docker hub
+    ```
+    docker login -u stone1972
+    docker push stone1972/eglogd:v1
+    ```
+    [https://hub.docker.com/repository/docker/stone1972/eglogd](https://hub.docker.com/repository/docker/stone1972/eglogd)
+7. clean up
+    ```
+    docker container rm -f eglogd-v1
+    docker image rm stone1972/eglogd-build:v1
     docker image rm stone1972/eglogd:v1
     ```
-6. start an elog container running the binary
-```
-docker run -d --publish 127.0.0.1:8084:8081 --name eglogd-v1 stone1972/eglogd:v1
-docker container rm eglogd-v1
-```
 
 ```
 #

@@ -14,8 +14,12 @@ RUN     mkdir /myapp && cd /myapp && mkdir /elogd-static && \
         gcc -static  -O3 -funroll-loops -fomit-frame-pointer -W -Wall -Wno-deprecated-declarations -Imxml -c -o mxml.o mxml/mxml.c && \
         gcc -static  -O3 -funroll-loops -fomit-frame-pointer -W -Wall -Wno-deprecated-declarations -Imxml -o elogd src/elogd.c crypt.o auth.o regex.o mxml.o strlcpy.o && \
         cp elogd /elogd
+RUN     cd /myapp/elog-* && \
+        tar -cvf elog-resources.tar resources scripts themes && \
+        cp elog-resources.tar /elog-resources.tar
 
 VOLUME ["/elogd-static"]
 
 
-CMD ["cp", "/elogd", "/elogd-static/elogd-static"]
+#CMD ["cp", "/elog*", "/elogd-static/."]
+CMD cp /elog* /elogd-static/.
