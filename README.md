@@ -1,7 +1,17 @@
 # eglog
-create an elog image and push it to docker hub
+create an elog image and push it to docker hub.
 
-TODO: use debian image
+Steps:
+- download elog source
+- compile elog source into a static binary
+- build an elog image with a Dockerfile
+- push the image to docker hub
+
+Tests:
+- create a container from image on docker hub
+- verify access
+
+Alternative: use debian image
 
 ```
 #https://docs.docker.com/engine/reference/builder
