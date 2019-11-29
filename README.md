@@ -11,9 +11,10 @@ Tests:
 - create a container from image on docker hub
 - verify access
 
-Alternative: use debian image
+TODO:
+- extract the resources from the latest elog-source
 
-1. download source to a test-container
+1. Manual test: compile a static elogdownload source to a test-container
     ```
     docker run -it --rm --name gcc-test \
         --mount type=bind,source="$PWD",target=/elogd-static \
@@ -22,7 +23,6 @@ Alternative: use debian image
     mkdir /myapp && cd /myapp
     wget https://elog.psi.ch/elog/download/tar/elog-latest.tar.gz
     ```
-2. compile
     ```
     tar -xzvf elog-latest.tar.gz
     rm elog-latest.tar.gz
@@ -36,20 +36,28 @@ Alternative: use debian image
     gcc -static  -O3 -funroll-loops -fomit-frame-pointer -W -Wall -Wno-deprecated-declarations -Imxml -c -o mxml.o mxml/mxml.c
     gcc -static  -O3 -funroll-loops -fomit-frame-pointer -W -Wall -Wno-deprecated-declarations -Imxml -o elogd src/elogd.c crypt.o auth.o regex.o mxml.o strlcpy.o
     ```
-3. copy the binary
+2. Build a statically-linked elogd image using Dockerfile
     ```
+    docker image build -t stone1972/eglogd-build:v1 .
+    docker image rm stone1972/eglogd-build:v1
     ```
-4. build and tag that image
-    ```
-    docker image build -t stone1972/eglogd:v1 .
-    docker image rm stone1972/eglogd:v1
-    ```
-5. start a container to get to the binary
+4. start a container to get to the binary into a local directory
     ```
     docker run -d --rm --name elogd-copy \
         --mount type=bind,source="$PWD",target=/elogd-static \
-        stone1972/eglogd:v1 
+        stone1972/eglogd-build:v1 
     ```
+5. Build an image for the elog container using Dockerfile
+    ```
+    cp ../buildcontainer/elogd-static .
+    docker image build -t stone1972/eglogd:v1 .
+    docker image rm stone1972/eglogd:v1
+    ```
+6. start an elog container running the binary
+```
+docker run -d --publish 127.0.0.1:8084:8081 --name eglogd-v1 stone1972/eglogd:v1
+docker container rm eglogd-v1
+```
 
 ```
 #
