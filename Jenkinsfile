@@ -23,7 +23,8 @@ pipeline{
             }
             steps{
                 echo 'Copying binary and resources to a local directory.'
-                sh 'cp /elog* /elogd-static/.'
+                sh 'cp /elogd /elogd-static/elogd-static'
+                sh 'cp /elog-resources.tar /elogd-static/elog-resources.tar'
             }
        }
        stage('elog-image-creation'){
