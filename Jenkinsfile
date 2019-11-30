@@ -2,17 +2,16 @@ pipeline{
     agent none
     stages{
        stage('elog-build'){
-           agent {
-             dockerfile {
-               filename 'Dockerfile'
-               dir 'buildcontainer'
-               args '-t stone1972/eglogd-build:v1'
-              }
-            }
-            steps{
-                echo 'Building from latest tar-ball.'
-                sleep 3
-            }
+           agent any
+           steps{
+               echo 'Packaging worker app with docker'
+               script{
+                   docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
+                       def workerImage = docker.build("stone1972/eglogd-build:v${env.BUILD_ID}", "./buildcontainer")
+                       workerImage.push()
+                       workerImage.push("latest")
+               }
+           }
        }
        stage('elog-copy-stuff'){
             agent any
