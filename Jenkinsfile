@@ -16,7 +16,10 @@ pipeline{
        }
        stage('elog-copy-stuff'){
            agent {
-               docker { image 'stone1972/eglogd-build:latest' }
+               docker {
+                   image 'stone1972/eglogd-build:latest'
+                   args '--mount type=bind,source="$HOME/workspace/eglog_create_image/elogcontainer/",target=/elogd-static'
+               }
             }
             steps{
                 echo 'Copying binary and resources to a local directory.'
