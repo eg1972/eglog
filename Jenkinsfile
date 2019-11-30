@@ -18,7 +18,7 @@ pipeline{
            agent {
                docker {
                    image 'stone1972/eglogd-build:latest'
-                   args '--mount type=bind,source="/home/eddgest/PycharmProjects/eglog/elogcontainer",target=/elogd-static'
+                   args '-d --rm --name elogd-copy --mount type=bind,source="/home/eddgest/PycharmProjects/eglog/elogcontainer",target=/elogd-static'
                }
             }
             steps{
