@@ -10,6 +10,7 @@ pipeline{
                        def workerImage = docker.build("stone1972/eglogd-build:v${env.BUILD_ID}", "./buildcontainer")
                        workerImage.push()
                        workerImage.push("latest")
+                   }
                }
            }
        }
