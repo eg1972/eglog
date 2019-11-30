@@ -15,7 +15,9 @@ pipeline{
            }
        }
        stage('elog-copy-stuff'){
-            agent any
+           agent {
+               docker { image 'stone1972/eglogd-build:latest' }
+            }
             steps{
                 echo 'Copying binary and resources to a local directory.'
                 sleep 3

@@ -1,6 +1,12 @@
 # eglog
 create an elog image and push it to docker hub.
 
+Documentation:
+- [https://jenkins.io/doc/book/pipeline/docker/](https://jenkins.io/doc/book/pipeline/docker/)
+- [https://jenkins.io/doc/book/pipeline/syntax/#agent](https://jenkins.io/doc/book/pipeline/syntax/#agent)
+
+
+
 Steps:
 - download elog source
 - compile elog source into a static binary
