@@ -20,7 +20,13 @@ Tests:
 TODO:
 - extract the resources from the latest elog-source
 - implement a Jenkins pipeline with the steps below
+## Automatic process using Jenkins pipeline
+### Jenkins prerequisites
+### installing Jenkins in a docker container
+### Jenkins configuraton
+### building an elog-image with Jenkins
 
+## Manual Process
 1. Manual test: compile a static elogdownload source to a test-container
     ```
     docker run -it --rm --name gcc-test \
@@ -45,6 +51,7 @@ TODO:
     ```
 2. Build a statically-linked elogd image using Dockerfile
     ```
+    cd buildcontainer
     docker image build -t stone1972/eglogd-build:v1 .
     ```
 3. start a container to get to the binary into a local directory
@@ -55,7 +62,7 @@ TODO:
     ```
 4. Build an image for the elog container using Dockerfile
     ```
-    #cp ../buildcontainer/elogd-static .
+    cd elogcontainer
     docker image build -t stone1972/eglogd:v1 .
     ```
 5. start an elog container running the binary
@@ -75,6 +82,10 @@ TODO:
     docker image rm stone1972/eglogd-build:v1
     docker image rm stone1972/eglogd:v1
     ```
+Notes:
+- the elogcontainer directory needs to be 777, so that the jenkins-user can write to it
+- the docker socket needs to be 777 so that docker in the jenkins container can control it 
+(```docker exec -it -u root jenkins chmod 777 /var/run/docker.sock```)
 
 ```
 #
