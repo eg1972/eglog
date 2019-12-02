@@ -37,8 +37,9 @@ pipeline{
                        workerImage.push()
                        workerImage.push("latest")
                    }
-             }
-        }
+               }
+            }
+       }
     }
     post{
         always{
