@@ -4,7 +4,7 @@ pipeline{
        stage('elog-build'){
            agent any
            steps{
-               echo 'Packaging worker app with docker'
+               echo 'Packaging worker app with docker.'
                script{
                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
                        def workerImage = docker.build("stone1972/eglogd-build:v${env.BUILD_ID}", "./buildcontainer")
@@ -30,7 +30,7 @@ pipeline{
        stage('elog-image-creation'){
             agent any
             steps{
-                echo 'Packaging worker app with docker'
+                echo 'Packaging worker app with docker.'
                script{
                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
                        def workerImage = docker.build("stone1972/eglogd:v${env.BUILD_ID}", "./elogcontainer")
