@@ -30,7 +30,7 @@ pipeline{
        stage('elog-image-creation'){
             agent any
             steps{
-                echo 'Packaging worker app with docker.'
+                echo 'Creating eglogd image.'
                script{
                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub') {
                        def workerImage = docker.build("stone1972/eglogd:v${env.BUILD_ID}", "./elogcontainer")
