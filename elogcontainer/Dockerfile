@@ -1,6 +1,6 @@
 FROM alpine:latest
 
-COPY elogd /usr/local/bin/elogd-static
+COPY elogd-static /usr/local/bin/elogd-static
 COPY elog-resources.tar /data/elog-data/
 COPY elog.cfg /data/elog-config/
 
