@@ -1,8 +1,8 @@
 FROM alpine:latest
 
-COPY ./elogcontainer/elogd-static /usr/local/bin/elogd-static
-COPY ./elogcontainer/elog-resources.tar /data/elog-data/
-COPY ./elogcontainer/elog.cfg /data/elog-config/
+COPY elogd-static /usr/local/bin/elogd-static
+COPY elog-resources.tar /data/elog-data/
+COPY elog.cfg /data/elog-config/
 
 RUN cd /data/elog-data/ && tar -xvf elog-resources.tar
 RUN addgroup elog && adduser -D elog -G elog
