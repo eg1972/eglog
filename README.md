@@ -23,8 +23,38 @@ TODO:
 ## Automatic process using Jenkins pipeline
 ### Jenkins prerequisites
 ### installing Jenkins in a docker container
+```
+docker container run -idt --name jenkins2 -P -p 8080:8080 -v /var/tmp/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:slim
+chmod 777 /var/tmp/jenkins_home
+```
 ### Jenkins configuraton
+- install docker in Jenkins container
+    ```
+    docker exec -u root -it jenkins bash
+     apt-get update
+     <execute steps from: https://docs.docker.com/install/linux/docker-ce/debian/>
+     usermod -a -G docker jenkins
+     chmod 777 /var/run/docker
+     ```
+- install docker plugin in Jenkins
+
+    Manage Jenkins -> Manage Plugins -> Available: search for "Docker plugin"
+- add credentials for GIT-hub
+
+    Credentials -> Jenkins global -> add credentials
+    
+        username: for GIT-hub
+        password: for GIT-hub
+        ID: docker-login (needs to match the one in the Jenkinsfile)
 ### building an elog-image with Jenkins
+Add a job with
+- GitHub project: git@github.com:eg1972/eglog.git/
+- Definition: Pipeline script from SCM
+    - SCM: GIT
+    
+        Repository URL: https://github.com/eg1972/eglog
+        
+        Credentials: docker-login
 
 ## Manual Process
 1. Manual test: compile a static elogdownload source to a test-container
@@ -67,7 +97,7 @@ TODO:
     ```
 5. start an elog container running the binary
     ```
-    docker run -d --publish 127.0.0.1:8084:8081 --name eglogd-v1 stone1972/eglogd:v1
+    docker run -d --publish 127.0.0.1:8084:8081 --name eglogd-latest stone1972/eglogd:latest
     ```
     [http://localhost:8084](http://localhost:8084)
 6. push the image to the Docker hub
