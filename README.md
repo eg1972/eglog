@@ -23,9 +23,14 @@ TODO:
 ## Automatic process using Jenkins pipeline
 ### Jenkins prerequisites
 ### installing Jenkins in a docker container
+The jenkins container will
+- foward port 8080 from the host-machine
+- mount the docker-socket, to be able to control the docker daemon on the host
+- mount /var/tmp/jenkins_home on the host as a $JENKINS_HOME (/var/jenkins_home) directory
 ```
-docker container run -idt --name jenkins2 -P -p 8080:8080 -v /var/tmp/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:slim
+mkdir -p /var/tmp/jenkins_home
 chmod 777 /var/tmp/jenkins_home
+docker container run -idt --name jenkins2 -P -p 8080:8080 -v /var/tmp/jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock jenkins/jenkins:slim
 ```
 ### Jenkins configuraton
 - install docker in Jenkins container
